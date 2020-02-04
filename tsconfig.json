@@ -69,5 +69,5 @@
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
   },
   "exclude": [],
-  "include": ["src/index.ts"]
+  "include": ["src/test.ts"]
 }

@@ -1,5 +1,5 @@
 import { Canvas } from './canvas.js';
-import { Colors } from './constants.js';
+import { Colors, Keys } from './constants.js';
 var Snake = /** @class */ (function () {
     function Snake(food, canvas) {
         this.foodX = 0;
@@ -37,6 +37,46 @@ var Snake = /** @class */ (function () {
         }
         else {
             this.food.snake.pop();
+        }
+    };
+    Snake.prototype.didGameEnd = function () {
+        for (var i = 4; i < this.food.snake.length; i++) {
+            var didCollide = this.food.snake[i].x === this.food.snake[0].x &&
+                this.food.snake[i].y === this.food.snake[0].y;
+            if (didCollide)
+                return true;
+        }
+        var hitLeftWall = this.food.snake[0].x < 0;
+        var hitRightWall = this.food.snake[0].x > this.canvas.width - 10;
+        var hitToptWall = this.food.snake[0].y < 0;
+        var hitBottomWall = this.food.snake[0].y > this.canvas.height - 10;
+        return hitLeftWall || hitRightWall || hitToptWall || hitBottomWall;
+    };
+    Snake.prototype.changeDirection = function (event) {
+        // if (changingDirection) return;
+        // changingDirection = true;
+        console.log('direct', event);
+        var keyPressed = event.keyCode;
+        var goingUp = this.dy === -10;
+        var goingDown = this.dy === 10;
+        var goingRight = this.dx === 10;
+        var goingLeft = this.dx === -10;
+        console.log(keyPressed);
+        if (keyPressed === Keys.LEFT_KEY && !goingRight) {
+            this.dx = -10;
+            this.dy = 0;
+        }
+        if (keyPressed === Keys.UP_KEY && !goingDown) {
+            this.dx = 0;
+            this.dy = -10;
+        }
+        if (keyPressed === Keys.RIGHT_KEY && !goingLeft) {
+            this.dx = 10;
+            this.dy = 0;
+        }
+        if (keyPressed === Keys.DOWN_KEY && !goingUp) {
+            this.dx = 0;
+            this.dy = 10;
         }
     };
     return Snake;
